@@ -1,0 +1,11 @@
+# Laravel
+/backend/vendor/
+/backend/node_modules/
+
+# Flutter
+/frontend/build/
+/frontend/.dart_tool/
+/frontend/.flutter-plugins/
+/frontend/.flutter-plugins-dependencies/
+/frontend/.packages/
+/frontend/.pub-cache/
