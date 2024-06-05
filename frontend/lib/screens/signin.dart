@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/user_image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -13,6 +14,32 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   File? _selectedImage;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  //final _nameController = TextEditingController();
+
+  Future<void> _register() async {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://localhost:8000/api/usuarios'),
+    );
+    request.fields['name'] = 'Nombre';
+    request.fields['lastName'] = 'Apellidos';
+    request.fields['email'] = _emailController.text;
+    request.fields['correo'] = '5512345678';
+    request.fields['password'] = _passwordController.text;
+    final response = await request.send();
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Usuario creado con éxito')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error al crear el usuario')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +64,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             },
                           ),
                           TextFormField(
+                            controller: _emailController,
                             decoration: const InputDecoration(
                                 labelText: 'Correo Electrónico'),
                             keyboardType: TextInputType.emailAddress,
@@ -55,6 +83,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             },
                           ),
                           TextFormField(
+                            controller: _passwordController,
                             decoration:
                                 const InputDecoration(labelText: 'Contraseña'),
                             obscureText: true,
@@ -70,7 +99,9 @@ class _SigninScreenState extends State<SigninScreen> {
                           ),
                           ElevatedButton(
                             //onPressed: _submit,
-                            onPressed: () {},
+                            onPressed: () {
+                              _register();
+                            },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Theme.of(context)
                                   .colorScheme
