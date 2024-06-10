@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/widgets/user_image_picker.dart';
 import 'package:http/http.dart' as http;
 
+//clase signin screen permite crear los datos del usuario
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
   @override
@@ -14,21 +15,28 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   File? _selectedImage;
+  final _nameController = TextEditingController();
+  final _lastnameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   //final _nameController = TextEditingController();
 
   Future<void> _register() async {
+    //enlace de conexión
     final request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://localhost:8000/api/usuarios'),
+      //10.0.2.2 equivale a localhost
+      Uri.parse('http://10.0.2.2:8000/api/store'),
     );
-    request.fields['name'] = 'Nombre';
-    request.fields['lastName'] = 'Apellidos';
+    //campos
+    request.fields['name'] = _nameController.text;
+    request.fields['lastName'] = _lastnameController.text;
     request.fields['email'] = _emailController.text;
-    request.fields['correo'] = '5512345678';
+    request.fields['phone'] = '5512345678';
     request.fields['password'] = _passwordController.text;
     final response = await request.send();
+    //mensaje de confirmación
     if (response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Usuario creado con éxito')),
@@ -62,6 +70,20 @@ class _SigninScreenState extends State<SigninScreen> {
                             onPickImage: (pickedImage) {
                               _selectedImage = pickedImage;
                             },
+                          ),
+                          TextFormField(
+                            controller: _nameController,
+                            decoration:
+                                const InputDecoration(labelText: 'Nombre'),
+                            keyboardType: TextInputType.name,
+                            autocorrect: false,
+                          ),
+                          TextFormField(
+                            controller: _lastnameController,
+                            decoration:
+                                const InputDecoration(labelText: 'Nombre'),
+                            keyboardType: TextInputType.name,
+                            autocorrect: false,
                           ),
                           TextFormField(
                             controller: _emailController,

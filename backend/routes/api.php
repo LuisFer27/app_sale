@@ -15,12 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Http\Controllers\UsuarioController;
 
-Route::get('/usuarios', [UsuarioController::class, 'index']);
-Route::post('/usuarios', [UsuarioController::class, 'store']);
-Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);
-Route::put('/usuarios/{id}', [UsuarioController::class, 'update']);
-Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+
+Route::get('index', [UsuarioController::class, 'index']);
+Route::post('store', [UsuarioController::class, 'store']);
+Route::get('show/{id}', [UsuarioController::class, 'show']);
+Route::put('update/{id}', [UsuarioController::class, 'update']);
+Route::delete('destroy/{id}', [UsuarioController::class, 'destroy']);
