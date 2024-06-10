@@ -81,7 +81,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           TextFormField(
                             controller: _lastnameController,
                             decoration:
-                                const InputDecoration(labelText: 'Nombre'),
+                                const InputDecoration(labelText: 'Apellidos'),
                             keyboardType: TextInputType.name,
                             autocorrect: false,
                           ),
