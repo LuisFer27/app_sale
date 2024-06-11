@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -9,6 +12,28 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String _email = '';
+  String _password = '';
+  Future<void> _register() async {
+    //enlace de conexión
+    final url = Uri.parse('http://10.0.2.2:8000/api/login');
+
+    //campos
+    final response = await http.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': _email, 'password': _password}));
+    //mensaje de confirmación
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Usuario creado con éxito')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error al crear el usuario')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
