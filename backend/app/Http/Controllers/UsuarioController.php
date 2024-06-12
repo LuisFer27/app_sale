@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -25,14 +26,12 @@ class UsuarioController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-    $credentials=request(['email','password']);
-    if(!Usuario::attempt($credentials)){
-     return response()->json(['message' => 'Credenciales invalidas', 'success' => false], 404);
-    }
-    else {
-        $user=$request->user();
-        return response()->json(['message' => 'Credenciales correctas', 'success' => true],201);
-       }
+        $usuario=Usuario::where('email',$request->email)->first();
+        if(!$usuario||!Hash::check($request->password,$usuario->password)){
+           return response()->json(['message'=>'Credenciales incorrectas','success'=>false],401);
+        }else{
+            return response()->json(['message'=>'Credenciales correctas','success'=>true],201);
+        }
 
     }
     public function update(Request $request,$id){

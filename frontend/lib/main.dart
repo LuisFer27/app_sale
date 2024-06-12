@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:frontend/screens/login.dart';
-import 'package:frontend/screens/signin.dart';
+import 'package:frontend/screens/login.dart';
+//import 'package:frontend/screens/signin.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 63, 17, 177)),
       ),
-      //home: const LoginScreen(),
-      home: const SigninScreen(),
+      home: const LoginScreen(),
+      //home: const SigninScreen(),
     );
   }
 }

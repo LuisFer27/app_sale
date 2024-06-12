@@ -21,7 +21,7 @@ use App\Http\Controllers\UsuarioController;
 //    return $request->user();
 //});
 
-
+Route::post('login',[UsuarioController::class,'login']);
 Route::get('index', [UsuarioController::class, 'index']);
 Route::post('store', [UsuarioController::class, 'store']);
 Route::get('show/{id}', [UsuarioController::class, 'show']);

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/login.dart';
 import 'package:frontend/widgets/user_image_picker.dart';
 import 'package:http/http.dart' as http;
 
@@ -132,7 +133,14 @@ class _SigninScreenState extends State<SigninScreen> {
                             child: const Text('Crear cuenta'),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) => const LoginScreen(),
+                                ),
+                              );
+                            },
                             child: const Text(
                                 'Ya dispones de una cuenta Inicia Sesión.'),
                           ),

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/signin.dart';
+import 'package:frontend/screens/start.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
   Future<void> _register() async {
@@ -24,13 +27,22 @@ class _LoginScreenState extends State<LoginScreen> {
         body: jsonEncode({'email': _email, 'password': _password}));
     //mensaje de confirmación
     if (response.statusCode == 201) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuario creado con éxito')),
+      // Redirigir a la pantalla de inicio
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const StartScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Error al crear el usuario')),
       );
+    }
+  }
+
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      _register();
     }
   }
 
@@ -67,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             onSaved: (value) {
-                              // _enteredEmail = value!;
+                              _email;
                             },
                           ),
                           TextFormField(
@@ -81,12 +93,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             onSaved: (value) {
-                              //_enteredPassword = value!;
+                              _password;
                             },
                           ),
                           ElevatedButton(
                             //onPressed: _submit,
-                            onPressed: () {},
+                            onPressed: () {
+                              _submit();
+                            },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Theme.of(context)
                                   .colorScheme
@@ -95,7 +109,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: const Text('Iniciar Sesión'),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) => const SigninScreen(),
+                                ),
+                              );
+                            },
                             child: const Text('Crea una cuenta.'),
                           ),
                         ],
